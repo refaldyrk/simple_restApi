@@ -1,9 +1,9 @@
-#Simple Restful API Using Golang
+# Simple Restful API Using Golang
 
-##Library Or Framework
+## Library Or Framework
     1. database/sql
     2. net/http 
     3. httprouter
     4. validator
 
-###Please Like This Repository
+### Pleasssse Like This Repository
