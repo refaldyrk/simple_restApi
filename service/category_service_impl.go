@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"github.com/go-playground/validator/v10"
 	"github.com/refaldyrk/openapi-pzn/errx"
 	"github.com/refaldyrk/openapi-pzn/model/domain"
 	"github.com/refaldyrk/openapi-pzn/model/web"
@@ -12,9 +13,13 @@ import (
 type CategoryServiceImpl struct {
 	Repository repository.CategoryRepository
 	DB         *sql.DB
+	vald       *validator.Validate
 }
 
 func (c *CategoryServiceImpl) Create(ctx context.Context, request web.CategoryCreateRequest) web.CategoryResponse {
+	err := c.vald.Struct(request)
+	errx.ErrorX(err)
+
 	tx, err := c.DB.Begin()
 	errx.ErrorX(err)
 
@@ -30,6 +35,9 @@ func (c *CategoryServiceImpl) Create(ctx context.Context, request web.CategoryCr
 }
 
 func (c *CategoryServiceImpl) Update(ctx context.Context, request web.CategoryUpdateRequest) web.CategoryResponse {
+	err := c.vald.Struct(request)
+	errx.ErrorX(err)
+
 	tx, err := c.DB.Begin()
 	errx.ErrorX(err)
 
@@ -46,6 +54,7 @@ func (c *CategoryServiceImpl) Update(ctx context.Context, request web.CategoryUp
 }
 
 func (c *CategoryServiceImpl) Delete(ctx context.Context, id int) {
+
 	tx, err := c.DB.Begin()
 	errx.ErrorX(err)
 
@@ -70,6 +79,7 @@ func (c *CategoryServiceImpl) FindById(ctx context.Context, id int) web.Category
 }
 
 func (c *CategoryServiceImpl) FindAll(ctx context.Context) []web.CategoryResponse {
+
 	tx, err := c.DB.Begin()
 	errx.ErrorX(err)
 
